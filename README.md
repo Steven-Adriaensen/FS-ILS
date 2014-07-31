@@ -9,3 +9,4 @@ Content:
 - lib/chesc.jar (CHeSC framework)
 - src/FairShareILS (FS-ILS code)
 - src/ExampleRun (Usage example)
+- no_restart/... (A version of FS-ILS without restart)
