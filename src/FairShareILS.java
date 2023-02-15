@@ -152,23 +152,22 @@ public class FairShareILS extends HyperHeuristic {
 	}
 	
 	private void localsearch(){
-		Vector<Integer> active = new Vector<Integer>();
-		for(int i = 0; i < llhs_ls.length;i++){
-			active.add(llhs_ls[i]);
-		}
-		while(!active.isEmpty()){
-			int index = rng.nextInt(active.size());
-			double e_temp = problem.applyHeuristic(active.get(index),c_proposed,c_proposed);
+		//i indicates the start of the active region
+		int i = 0;
+		while(i < llhs_ls.length){
+			int j = rng.nextInt(i, llhs_ls.length);
+			double e_temp = problem.applyHeuristic(llhs_ls[j],c_proposed,c_proposed);
 			hasTimeExpired();
 			if(e_temp < e_proposed){
 				e_proposed = e_temp;
-				active.clear();
-				//restore
-				for(int i = 0; i < llhs_ls.length;i++){
-					active.add(llhs_ls[i]);
-				}
+				//clear the inactive region
+				i = 0;
 			}else{
-				active.remove(index);
+				//move j to the inactive region
+				int t = llhs_ls[i];
+				llhs_ls[i] = llhs_ls[j];
+				llhs_ls[j] = t;
+				i++;
 			}
 		}
 	}
